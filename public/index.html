@@ -8,13 +8,35 @@
 </head>
 <body>
     <h1>Chat App</h1>
+    <div id="messages">
+
+    </div>
     <form id="message-form">
         <input name="message" type="text" , placeholder="enter message">
-        <button id="increment">Send</button>
+        <button id="send">Send</button>
     </form>
     <p id="message"></p>
     <button id="send-location">Send Location</button>
+
+    <script id="message-template" , type="text/html">
+        <div>
+            <p>
+                {{message}}
+            </p>
+        </div>
+    </script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.0.1/mustache.min.js"
+            integrity="sha512-6AXIWogbKpsHvoZJrJtHpIYES4wP8czSj0zk7ZfwOYS8GWYFNSykwdfapt7yQc4ikZytemBu+QyVObzBHJMwYg=="
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"
+            integrity="sha512-rmZcZsyhe0/MAjquhTgiUcb4d9knaFc7b5xAfju483gbEXTkeJRUMIPk6s3ySZMYUHEcjKbjLjyddGWMrNEvZg=="
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.4/qs.min.js"
+            integrity="sha512-BHtomM5XDcUy7tDNcrcX1Eh0RogdWiMdXl3wJcKB3PFekXb3l5aDzymaTher61u6vEZySnoC/SAj2Y/p918Y3w=="
+            crossorigin="anonymous"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src = "js/chat.js"></script>
+
 </body>
 </html>
