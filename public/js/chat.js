@@ -2,7 +2,6 @@ const socket = io()
 
 //Elements
 const $chatForm = document.querySelector('#message-form')
-const $messageOutput = document.querySelector('#message')
 const $chatFormInput = $chatForm.querySelector('input')
 const $chatFormButton = $chatForm.querySelector('#send')
 const $sendLocationButton = document.querySelector('#send-location')
@@ -10,6 +9,7 @@ const $messages = document.querySelector('#messages')
 
 //Templates
 const $messageTemplate = document.querySelector('#message-template').innerHTML
+const $locationTemplate = document.querySelector('#location-template').innerHTML
 
 //send message event
 $chatForm.addEventListener('submit' , (e) => {
@@ -17,34 +17,37 @@ $chatForm.addEventListener('submit' , (e) => {
     //disable form 
     $chatFormButton.setAttribute('disabled' , 'disabled')
 
-    //both of these lines do same thing
-    // const messageField = e.target.message
-    const $messageField = e.target.elements.message
-
-    if(!$messageField.value){
-        $messageOutput.textContent = 'Enter a message'
-    }
-    else{
-        socket.emit('sendMessage' , $messageField.value , (error) =>{
+        socket.emit('sendMessage' , $chatFormInput.value , (error) =>{
             //enable form
             $chatFormButton.removeAttribute('disabled')
+            $chatFormInput.value = ''
             $chatFormInput.focus()
             if(error){
                 return console.log(error)
             }
             console.log('Message delivered')
         })
-    }
 })
 
 
 //message from server
 socket.on('message' , (message) =>{
     const html = Mustache.render($messageTemplate , {
-        message
+        message : message.text,
+        createdAt : moment(message.createdAt).format('HH:mm a')
     })
     $messages.insertAdjacentHTML( 'beforeend' , html)
 })
+
+//location message
+socket.on('locationMessage' , (url) =>{
+    const html = Mustache.render($locationTemplate , {
+        url : url.url,
+        createdAt : moment(url.createdAt).format('HH:mm a')
+    })
+    $messages.insertAdjacentHTML('beforeend' , html)
+})
+
 
 //send location event
 $sendLocationButton.addEventListener('click' , () =>{
