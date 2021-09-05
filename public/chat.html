@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatLet</title>
+    <link rel="icon" href="./img/favicon.png">
+    <link rel="stylesheet" href="./css/styles.min.css">
+</head>
+
+<body>
+    <div class="chat">
+        <div class="chat__sidebar"></div>
+        <div class="chat__main">
+            <div id="messages" , class="chat__messages"></div>
+            <div class="compose">
+                <form id="message-form">
+                    <input name="message" type="text" , placeholder="Message">
+                    <button id="send">Send</button>
+                </form>
+                <button id="send-location">Send Location</button>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- message template -->
+    <script id="message-template" , type="text/html">
+        <div class="message">
+            <p>
+                <span class="message__name">
+                    Joe
+                </span>
+                <span class="message__meta">
+                    {{createdAt}}
+                </span>
+            </p>
+            <p>
+                {{message}}
+            </p>
+        </div>
+    </script>
+
+    <!-- location message template -->
+    <script id="location-template" , type="text/html">
+        <div class="message">
+                        <p>
+                            <span class="message__name">
+                                Joe
+                            </span>
+                            <span class="message__meta">
+                                {{createdAt}}
+                            </span>
+                        </p>
+            <!-- maybe add quotes to url placeholder -->
+            <p><a href={{url}} , target="_blank">My current Location</a></p>
+            
+        </div>
+    </script>
+
+    <!-- Mustache library for creating  templates -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.0.1/mustache.min.js"
+        integrity="sha512-6AXIWogbKpsHvoZJrJtHpIYES4wP8czSj0zk7ZfwOYS8GWYFNSykwdfapt7yQc4ikZytemBu+QyVObzBHJMwYg=="
+        crossorigin="anonymous"></script>
+
+    <!-- moment for time manipulation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"
+        integrity="sha512-rmZcZsyhe0/MAjquhTgiUcb4d9knaFc7b5xAfju483gbEXTkeJRUMIPk6s3ySZMYUHEcjKbjLjyddGWMrNEvZg=="
+        crossorigin="anonymous"></script>
+
+    <!-- query string -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.4/qs.min.js"
+        integrity="sha512-BHtomM5XDcUy7tDNcrcX1Eh0RogdWiMdXl3wJcKB3PFekXb3l5aDzymaTher61u6vEZySnoC/SAj2Y/p918Y3w=="
+        crossorigin="anonymous"></script>
+
+    <!-- socket.io -->
+    <script src="/socket.io/socket.io.js"></script>
+
+    <!-- client side javascript -->
+    <script src="js/chat.js"></script>
+
+</body>
+
+</html>

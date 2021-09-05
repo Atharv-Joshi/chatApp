@@ -23,11 +23,16 @@ app.use(express.static(publicDirectoryPath))
 io.on('connection' , (socket) => {
     console.log('new Websocket connection')
 
-    //welcome message
-    socket.emit('message' , generateMessage('Welcome!'))
+    //setup chat rooms
+    socket.on('join' , ({username , room}) =>{
+        socket.join(room)
+        //welcome message
 
-    //new user message
-    socket.broadcast.emit('message' , generateMessage('A new user has joined'))
+        socket.emit('message' , generateMessage('Welcome!'))
+
+        //new user message
+        socket.broadcast.to(room).emit('message' , generateMessage(`${username} has joined!`))
+    })
 
     //client message
     socket.on('sendMessage' , (message , callback) =>{
@@ -35,19 +40,19 @@ io.on('connection' , (socket) => {
         if(filter.isProfane(message)){
             return callback('Profanity is not allowed')
         }
-        io.emit('message' , generateMessage(message))
+        io.to('room1').emit('message' , generateMessage(message))
         callback()
     })
 
     //location message
     socket.on('sendLocation' , (position , callback) =>{
-        io.emit('locationMessage' , generateLocationMessage(`https://www.google.com/maps?q=${position.latitude},${position.longitude}`))
+        io.to('room1').emit('locationMessage' , generateLocationMessage(`https://www.google.com/maps?q=${position.latitude},${position.longitude}`))
         callback()
     })
 
     //user disconnected
     socket.on('disconnect' , () =>{
-        io.emit('message' , 'A user has left!')
+        io.to('room1').emit('message' , 'A user has left!')
     })
 })
 
